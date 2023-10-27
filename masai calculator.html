@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masai Calculator</title>
+</head>
+<body>
+    <h1></h1>
+    
+    <button class="key">1</button>
+    <button class="key">2</button>
+    <button class="key">3</button>
+    <button class="operator">/</button>
+    <br>
+    <button class="key">4</button>
+    <button class="key">5</button>
+    <button class="key">6</button>
+    <button class="operator">*</button>
+    <br>
+    <button class="key">7</button>
+    <button class="key">8</button>
+    <button class="key">9</button>
+    <button class="operator">-</button>
+    <br>
+    <button id="clear">C</button>
+    <button class="key">0</button>
+    <button id="equal">=</button>
+    <button class="operator">+</button>
+</body>
+<script>
+let firstnum = "";
+let secondnum = "";
+let opern = true;
+let currentOperator = "";
+let keys = document.querySelectorAll(".key");
+let operators = document.querySelectorAll(".operator");
+let equal = document.getElementById("equal");
+let clear = document.getElementById("clear");
+let disp = document.querySelector("h1");
+
+for (let i = 0; i < keys.length; i++) {
+    keys[i].addEventListener("click", function () {
+        if (opern) {
+            firstnum += keys[i].innerText;
+            disp.innerText = firstnum;
+        } else {
+            secondnum += keys[i].innerText;
+            disp.innerText = secondnum;
+        }
+    });
+}
+
+for (let i = 0; i < operators.length; i++) {
+    operators[i].addEventListener("click", function () {
+        if (opern) {
+            currentOperator = operators[i].innerText;
+            opern = false;
+            disp.innerText = currentOperator;
+        }
+    });
+}
+
+equal.addEventListener("click", function () {
+    if (firstnum !== "" && secondnum !== "" && currentOperator !== "") {
+        const num1 = parseFloat(firstnum);
+        const num2 = parseFloat(secondnum);
+        let result = 0;
+        switch (currentOperator) {
+            case '+':
+                result = num1 + num2;
+                break;
+            case '-':
+                result = num1 - num2;
+                break;
+            case '*':
+                result = num1 * num2;
+                break;
+            case '/':
+                if (num2 !== 0) {
+                    result = num1 / num2;
+                } else {
+                    result = "Error: Division by zero";
+                }
+                break;
+        }
+        disp.innerText = result;
+        firstnum = result.toString();
+        secondnum = "";
+        opern = true;
+    }
+});
+
+clear.addEventListener("click", function () {
+    firstnum = "";
+    secondnum = "";
+    currentOperator = "";
+    opern = true;
+    disp.innerText = "";
+});
+</script>
+</html>
